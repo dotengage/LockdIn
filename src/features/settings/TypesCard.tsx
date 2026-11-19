@@ -49,7 +49,7 @@ export function TypesCard() {
       </ul>
 
       {adding ? (
-        <div className="mt-3 space-y-3 rounded-2xl bg-subtle/60 p-3">
+        <div className="mt-3 space-y-3 rounded-2xl bg-subtle/60 p-4">
           {hidden.length > 0 && (
             <div>
               <p className="mb-2 text-xs font-medium text-muted">Quick add</p>

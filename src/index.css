@@ -55,7 +55,7 @@
 @layer utilities {
   .num { font-variant-numeric: tabular-nums; }
   .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-  .safe-top { padding-top: env(safe-area-inset-top); }
+  .safe-top { padding-top: max(0.75rem, env(safe-area-inset-top)); }
   .scrollbar-none { scrollbar-width: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; }
 }

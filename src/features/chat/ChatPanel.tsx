@@ -81,7 +81,7 @@ export default function ChatPanel() {
           aria-describedby={undefined}
           className="fixed inset-0 z-50 flex flex-col bg-surface shadow-lift focus:outline-none data-[state=open]:animate-[sheetUp_220ms_cubic-bezier(0.2,0.9,0.3,1)] sm:inset-y-0 sm:left-auto sm:right-0 sm:w-[440px] sm:border-l sm:border-border"
         >
-          <div className="flex items-center justify-between border-b border-border px-4 py-3 safe-top">
+          <div className="flex items-center justify-between border-b border-border px-5 pb-3 safe-top">
             <div className="flex items-center gap-2.5">
               <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-accent-soft text-accent"><Sparkles className="h-4 w-4" /></span>
               <div>
@@ -142,7 +142,7 @@ export default function ChatPanel() {
             </div>
           )}
 
-          <form className="flex items-end gap-2 border-t border-border p-3 safe-bottom" onSubmit={(e) => { e.preventDefault(); void send(text); }}>
+          <form className="flex items-end gap-2.5 border-t border-border px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-4" onSubmit={(e) => { e.preventDefault(); void send(text); }}>
             <textarea
               ref={inputRef}
               autoFocus
