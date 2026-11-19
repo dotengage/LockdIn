@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: 245 245 247;
+    --surface: 255 255 255;
+    --subtle: 240 240 242;
+    --border: 226 226 230;
+    --fg: 29 29 31;
+    --muted: 110 110 115;
+    --accent: 36 158 72;
+    --accent-fg: 255 255 255;
+    --accent-soft: 232 246 236;
+    --gain: 30 140 64;
+    --loss: 215 52 46;
+    --warn: 184 106 0;
+    color-scheme: light;
+  }
+  .dark {
+    --bg: 8 8 9;
+    --surface: 22 22 24;
+    --subtle: 33 33 36;
+    --border: 44 44 48;
+    --fg: 245 245 247;
+    --muted: 152 152 157;
+    --accent: 134 234 79;
+    --accent-fg: 12 22 8;
+    --accent-soft: 27 40 22;
+    --gain: 120 222 96;
+    --loss: 255 105 97;
+    --warn: 255 196 64;
+    color-scheme: dark;
+  }
+
+  html { -webkit-tap-highlight-color: transparent; }
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--border)) transparent; }
+  body {
+    @apply bg-bg text-fg antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI Variable Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: -0.006em;
+    min-height: 100dvh;
+  }
+  :focus-visible { @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-bg; }
+  /* text fields have their own focus styling */
+  input:focus-visible, textarea:focus-visible { @apply ring-0 ring-offset-0; }
+  /* grid children may shrink below their content width (prevents horizontal scroll on phones) */
+  .grid > * { min-width: 0; }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type='number'] { -moz-appearance: textfield; }
+}
+
+@layer utilities {
+  .num { font-variant-numeric: tabular-nums; }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-top { padding-top: env(safe-area-inset-top); }
+  .scrollbar-none { scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+.glass { @apply bg-surface/70 backdrop-blur-xl; }
+.dark .glow-accent { box-shadow: 0 0 0 1px rgb(var(--accent) / 0.25), 0 8px 40px -8px rgb(var(--accent) / 0.45); }
+.recharts-wrapper:focus, .recharts-surface:focus { outline: none; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sheetUp { from { translate: 0 100%; } to { translate: 0 0; } }
+@keyframes popIn { from { opacity: 0; scale: 0.97; } to { opacity: 1; scale: 1; } }
