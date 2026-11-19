@@ -163,7 +163,7 @@ function SimplePlan({ goal }: { goal: Goal }) {
     <Card>
       <GoalForm goal={draft} onChange={setDraft} />
       {dirty && (
-        <div className="sticky bottom-20 mt-6 flex justify-end gap-2 lg:bottom-4">
+        <div className="sticky bottom-[calc(5rem_+_env(safe-area-inset-bottom))] mt-6 flex justify-end gap-2 lg:bottom-4">
           <Button variant="outline" onClick={() => setDraft(goal)}>Discard</Button>
           <Button onClick={async () => { await saveGoal(draft); toast('Plan saved'); }}>Save plan</Button>
         </div>

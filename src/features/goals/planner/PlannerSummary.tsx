@@ -51,7 +51,7 @@ export function PlannerSummary({ summary, planner, savingEnd }: { summary: Summa
         </div>
       </aside>
       {/* Mobile: bottom sheet */}
-      <div className="fixed inset-x-0 bottom-[64px] z-30 px-3 pb-2 lg:hidden">
+      <div className="fixed inset-x-0 bottom-[calc(64px_+_env(safe-area-inset-bottom))] z-30 px-3 pb-2 lg:hidden">
         <div className="rounded-2xl border border-border bg-surface shadow-lift">
           <button className="flex w-full items-center justify-between px-4 py-3" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
             <span className="text-left">

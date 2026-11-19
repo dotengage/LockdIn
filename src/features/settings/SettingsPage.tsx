@@ -122,7 +122,7 @@ export function SettingsPage() {
       <TypesCard />
 
       {dirty && (
-        <div className="sticky bottom-24 z-20 flex items-center justify-between gap-3 rounded-3xl border border-border bg-surface py-3.5 pl-6 pr-3.5 shadow-lift lg:bottom-6">
+        <div className="sticky bottom-[calc(6rem_+_env(safe-area-inset-bottom))] z-20 flex items-center justify-between gap-3 rounded-3xl border border-border bg-surface py-3.5 pl-6 pr-3.5 shadow-lift lg:bottom-6">
           <span className="pl-2 text-sm">You have unsaved changes</span>
           <div className="flex gap-2"><Button variant="ghost" onClick={() => setP(profile)}>Discard</Button><Button onClick={async () => { await saveProfile(p); toast('Settings saved'); }}>Save</Button></div>
         </div>

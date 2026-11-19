@@ -210,7 +210,7 @@ export function NewGoalPage() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="sticky bottom-16 -mx-4 mt-10 bg-gradient-to-t from-bg via-bg to-transparent px-4 pb-4 pt-6 lg:bottom-0">
+        <div className="sticky bottom-[calc(4rem_+_env(safe-area-inset-bottom))] -mx-4 mt-10 bg-gradient-to-t from-bg via-bg to-transparent px-4 pb-4 pt-6 lg:bottom-0">
           <Button type="submit" size="lg" className="w-full" disabled={!canNext}>
             {step === 'review' ? (planner ? 'Create & add costs' : 'Create goal') : <>Continue <ArrowRight className="h-4 w-4" /></>}
           </Button>

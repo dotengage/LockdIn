@@ -91,7 +91,7 @@ export function AppShell() {
         </div>
       </header>
 
-      <main className="min-w-0 flex-1 pb-28 lg:pb-12">
+      <main className="min-w-0 flex-1 pb-[calc(7rem_+_env(safe-area-inset-bottom))] lg:pb-12">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -109,7 +109,7 @@ export function AppShell() {
       {/* Mobile FAB (hidden on the planner, which has its own bottom summary) */}
       {!location.search.includes('tab=plan') && <button
         onClick={() => openCheckIn()}
-        className="fixed bottom-[84px] right-4 z-40 flex h-14 items-center gap-2 rounded-full bg-fg px-5 font-medium text-bg shadow-lift transition-transform active:scale-95 lg:hidden"
+        className="fixed bottom-[calc(84px_+_env(safe-area-inset-bottom))] right-4 z-40 flex h-14 items-center gap-2 rounded-full bg-fg px-5 font-medium text-bg shadow-lift transition-transform active:scale-95 lg:hidden"
         aria-label="Check in"
       >
         <Plus className="h-5 w-5" /> Check in
