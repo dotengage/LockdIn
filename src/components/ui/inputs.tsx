@@ -62,12 +62,17 @@ export function MoneyInput({ value, onChange, id, placeholder = '0', className, 
 }
 
 /** Small numeric input with a suffix such as % or g */
-export function NumberInput({ value, onChange, suffix, min, max, step = 0.1, id, className, ariaLabel, placeholder }: {
+export function NumberInput({ value, onChange, suffix, min, max, step = 0.1, id, className, ariaLabel, placeholder, allowEmpty }: {
+  /** with allowEmpty, an empty field reports NaN instead of 0 */
+  allowEmpty?: boolean;
   value: number | undefined; onChange: (n: number) => void; suffix?: string; min?: number; max?: number; step?: number; id?: string; className?: string; ariaLabel?: string; placeholder?: string;
 }) {
   const [text, setText] = useState(value == null ? '' : String(value));
   useEffect(() => {
-    if ((parseFloat(text) || 0) !== (value ?? 0)) setText(value == null ? '' : String(value));
+    // follow outside changes, but don't force "0" into a field the user just cleared
+    const shown = text === '' ? undefined : parseFloat(text);
+    const v = value == null || Number.isNaN(value) ? undefined : value;
+    if (shown !== v && !(shown === undefined && v === 0)) setText(v == null ? '' : String(v));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
   return (
@@ -86,7 +91,7 @@ export function NumberInput({ value, onChange, suffix, min, max, step = 0.1, id,
         onChange={(e) => {
           setText(e.target.value);
           let n = parseFloat(e.target.value);
-          if (Number.isNaN(n)) n = 0;
+          if (Number.isNaN(n)) { onChange(allowEmpty ? NaN : 0); return; }
           if (max != null) n = Math.min(max, n);
           if (min != null) n = Math.max(min, n);
           onChange(n);

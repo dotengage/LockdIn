@@ -56,7 +56,7 @@ export function HoldingDialog({ open, onOpenChange, holding, onSaved }: { open: 
             <Field label="Interest rate"><NumberInput value={h.interestRate} onChange={(n) => set({ interestRate: n })} suffix="% / yr" min={0} max={30} ariaLabel="Interest rate" /></Field>
           )}
           <Field label={<LabelTip term="expectedReturn">Expected growth</LabelTip>} hint={h.expectedReturn == null ? 'Leave empty to use the default' : undefined}>
-            <NumberInput value={h.expectedReturn} onChange={(n) => set({ expectedReturn: Number.isFinite(n) && n !== 0 ? n : undefined })} suffix="% / yr" min={-50} max={100} ariaLabel="Expected growth" placeholder={String(h.valuation === 'interest' ? h.interestRate ?? info.defaultReturn : info.defaultReturn)} />
+            <NumberInput value={h.expectedReturn} allowEmpty onChange={(n) => set({ expectedReturn: Number.isNaN(n) ? undefined : n })} suffix="% / yr" min={-50} max={100} ariaLabel="Expected growth" placeholder={String(h.valuation === 'interest' ? h.interestRate ?? info.defaultReturn : info.defaultReturn)} />
           </Field>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">

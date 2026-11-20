@@ -32,15 +32,17 @@ export function SettingsPage() {
   const [p, setP] = useState<Profile>(profile);
   const prev = useRef(profile);
   useEffect(() => {
-    // take changes saved elsewhere, but keep fields the user is still editing here
+    // take changes saved elsewhere, but keep fields the user is still editing here.
+    // `before` is captured now: the updater runs later, after prev.current has moved on.
+    const before = prev.current;
+    prev.current = profile;
     setP((cur) => {
       const next = { ...profile } as Record<string, unknown>;
       for (const k of Object.keys(cur) as (keyof Profile)[]) {
-        if (JSON.stringify(cur[k]) !== JSON.stringify(prev.current[k])) next[k] = cur[k];
+        if (JSON.stringify(cur[k]) !== JSON.stringify(before[k])) next[k] = cur[k];
       }
       return next as unknown as Profile;
     });
-    prev.current = profile;
   }, [profile]);
   const dirty = JSON.stringify(p) !== JSON.stringify(profile);
   const set = (patch: Partial<Profile>) => setP((cur) => ({ ...cur, ...patch }));
