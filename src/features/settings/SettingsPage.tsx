@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Cloud, Database, Download, FileSpreadsheet, FileText, KeyRound, Moon, Palette, RefreshCw, Sparkles, Sun, Trash2, Upload, User, Wallet, CalendarClock, Info, Monitor } from 'lucide-react';
+import { Check, Copy, Eye, EyeOff, Cloud, Database, Download, FileSpreadsheet, FileText, KeyRound, Moon, Palette, RefreshCw, Sparkles, Sun, Trash2, Upload, User, Wallet, CalendarClock, Info, Monitor } from 'lucide-react';
 import { Card, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
@@ -143,6 +143,36 @@ export function SettingsPage() {
   );
 }
 
+/** Lets the user copy their sync key to set up another device. */
+function SyncKey({ token }: { token: string }) {
+  const [show, setShow] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const masked = `${token.slice(0, 4)}${'•'.repeat(12)}${token.slice(-4)}`;
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(token);
+    } catch {
+      // fallback for browsers without clipboard permission
+      const el = document.createElement('textarea');
+      el.value = token; document.body.appendChild(el); el.select(); document.execCommand('copy'); el.remove();
+    }
+    setCopied(true);
+    toast('Sync key copied. Paste it in LockdIn on your other device.');
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <div className="rounded-2xl border border-border p-4">
+      <p className="text-sm font-medium">Use on your other device</p>
+      <p className="mt-0.5 text-xs text-muted">Copy this key, open LockdIn on the other device, go to Settings → Sync across devices and paste it. Keep it private, like a password.</p>
+      <div className="mt-3 flex items-center gap-2">
+        <code className="num min-w-0 flex-1 truncate rounded-xl bg-subtle px-3 py-2.5 text-sm">{show ? token : masked}</code>
+        <Button size="sm" variant="ghost" className="h-10" onClick={() => setShow((v) => !v)} aria-label={show ? 'Hide sync key' : 'Show sync key'}>{show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}</Button>
+        <Button size="sm" className="h-10" onClick={() => void copy()}>{copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />} {copied ? 'Copied' : 'Copy'}</Button>
+      </div>
+    </div>
+  );
+}
+
 function SyncCard() {
   const meta = useStore((s) => s.meta);
   const sync = useStore((s) => s.sync);
@@ -164,6 +194,7 @@ function SyncCard() {
             </div>
             <Button size="sm" variant="outline" disabled={sync.status === 'syncing'} onClick={() => void syncNow()}><RefreshCw className={cn('h-3.5 w-3.5', sync.status === 'syncing' && 'animate-spin')} /> Sync now</Button>
           </div>
+          <SyncKey token={meta.gist.token!} />
           <div className="flex items-center justify-between gap-4">
             <div><p className="text-sm font-medium">Sync automatically</p><p className="text-xs text-muted">When the app opens and a few seconds after each change</p></div>
             <Switch label="Auto sync" checked={meta.gist.autoSync} onCheckedChange={(v) => void patchMeta({ gist: { ...meta.gist, autoSync: v } })} />
@@ -175,10 +206,11 @@ function SyncCard() {
           <ol className="list-decimal space-y-1 pl-5 text-sm text-muted">
             <li>On GitHub, open <b className="text-fg">Settings → Developer settings → Personal access tokens</b>.</li>
             <li>Create a token with only the <b className="text-fg">gist</b> permission (fine-grained: Account permissions → Gists → Read and write).</li>
-            <li>Paste it below. Do the same on your other device with the same token.</li>
+            <li>Paste it below.</li>
           </ol>
+          <p className="rounded-xl bg-accent-soft px-3 py-2 text-sm">Already set up on another device? Copy the sync key there (Settings → Sync across devices → Copy) and paste it here.</p>
           <div className="flex flex-col gap-2 sm:flex-row">
-            <Input type="password" autoComplete="off" placeholder="GitHub token" value={token} onChange={(e) => setToken(e.target.value.trim())} aria-label="GitHub token" />
+            <Input type="password" autoComplete="off" placeholder="Paste your GitHub token or sync key" value={token} onChange={(e) => setToken(e.target.value.trim())} aria-label="GitHub token" />
             <Button disabled={!token || busy} onClick={async () => {
               setBusy(true);
               try {

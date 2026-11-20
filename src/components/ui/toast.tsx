@@ -52,7 +52,7 @@ function ToastItem({ t }: { t: Toast }) {
 export function Toaster() {
   const toasts = useToasts((s) => s.toasts);
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-[calc(6rem_+_env(safe-area-inset-bottom))] z-[60] flex flex-col items-center gap-2 px-4 lg:bottom-6 lg:items-end lg:pr-6">
+    <div className="pointer-events-none fixed inset-x-0 bottom-[calc(9.5rem_+_env(safe-area-inset-bottom))] z-[60] flex flex-col items-center gap-2 px-4 lg:bottom-6 lg:items-end lg:pr-6">
       <AnimatePresence>{toasts.map((t) => <ToastItem key={t.id} t={t} />)}</AnimatePresence>
     </div>
   );
