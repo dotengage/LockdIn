@@ -34,7 +34,11 @@
     color-scheme: dark;
   }
 
-  html { -webkit-tap-highlight-color: transparent; }
+  html { -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  /* iOS zooms into fields with text under 16px; keep them at 16px+ on touch screens */
+  @media (pointer: coarse) {
+    input, textarea, select { font-size: max(16px, 1em) !important; }
+  }
   * { scrollbar-width: thin; scrollbar-color: rgb(var(--border)) transparent; }
   body {
     @apply bg-bg text-fg antialiased;
